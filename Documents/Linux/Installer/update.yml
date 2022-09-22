@@ -6,6 +6,16 @@
   become_user: root
   gather_facts: yes
 
-  tasks: 
-    - name: test 
-      shell: echo "test"
+  vars: 
+    PACKAGES: 
+    - "vim"
+    PACKAGES_ARCH: 
+    - "cronie"
+
+  tasks:                
+    - name: install packages (arch)
+      pacman:
+        name: "{{ PACKAGES + PACKAGES_ARCH }}"
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Archlinux"
