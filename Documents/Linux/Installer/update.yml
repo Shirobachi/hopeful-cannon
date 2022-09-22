@@ -7,4 +7,5 @@
   gather_facts: yes
 
   tasks: 
-    - name: ..
+    - name: test 
+      shell: echo "test"
