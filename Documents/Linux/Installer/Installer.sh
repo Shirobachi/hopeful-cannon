@@ -9,9 +9,8 @@ if ! curl -Is "$link" | head -1 | grep -q '20'; then
 	echo "$ID $VERSION_ID is not supported!"
 	exit 1
 fi
-
 # Install packages
-PACHAGES="ansible git cron"
+PACHAGES="git cron"
 if ! which crontab; then
 	if [[ "$ID" == "ubuntu" ]]; then
 		sudo apt install -y "$PACHAGES"
