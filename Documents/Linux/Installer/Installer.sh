@@ -23,6 +23,7 @@ fi
 
 # Download bare repo
 BACKUP_DIR="$HOME"/.backup
+# echo ".cfg" >> .gitignore &&   TODO
 git clone --bare https://github.com/Shirobachi/super-duper-octo-spork.git "$BACKUP_DIR"
 git --git-dir="$BACKUP_DIR" --work-tree="$HOME" checkout --force 
 
