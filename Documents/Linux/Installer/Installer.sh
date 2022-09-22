@@ -10,12 +10,14 @@ if ! curl -Is "$link" | head -1 | grep -q '20'; then
 	exit 1
 fi
 # Install packages
-PACHAGES="git cron"
+PACHAGES="git"
+PACHAGES_UBUNTU=""
+PACHAGES_ARCH="cronie"
 if ! which crontab; then
 	if [[ "$ID" == "ubuntu" ]]; then
-		sudo apt install -y "$PACHAGES"
+		sudo apt install -y "$PACHAGES $PACHAGES_UBUNTU"
 	elif [[ "$ID" == "arch" ]] || [[ "$ID" == "manjaro" ]]; then
-		sudo pacman -Syu --noconfirm "$PACHAGES"
+		sudo pacman -Syu --noconfirm "$PACHAGES $PACHAGES_ARCH"
 	fi
 fi
 
