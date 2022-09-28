@@ -9,12 +9,13 @@
   vars: 
     PACKAGES: 
     - "vim"
+    - "ranger"
     PACKAGES_ARCH: 
     - "cronie"
 
   tasks:                
     - name: install packages (arch)
-      pacman:
+      packages:
         name: "{{ PACKAGES + PACKAGES_ARCH }}"
         state: present
         update_cache: yes
