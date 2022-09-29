@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export BACKUP_DIR=".backup"
-export BACKUP_GIT_HTTPS_REPO="https://github.com/Shirobachi/super-duper-octo-spork.git"
-export GIT_PREFIX="git --git-dir=$HOME/$BACKUP_DIR --work-tree=$HOME"
+BACKUP_DIR=".backup"
+BACKUP_GIT_HTTPS_REPO="https://github.com/Shirobachi/super-duper-octo-spork.git"
+GIT_PREFIX="git --git-dir=$HOME/$BACKUP_DIR --work-tree=$HOME"
 # shellcheck disable=SC1091
 . "$HOME"/Documents/Linux/.env 2>/dev/null
 
