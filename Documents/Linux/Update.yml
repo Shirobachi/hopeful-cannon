@@ -13,7 +13,7 @@
     PACKAGES_ARCH: 
     - "cronie"
 
-  tasks:                
+  tasks:
     - name: install packages (arch)
       packages:
         name: "{{ PACKAGES + PACKAGES_ARCH }}"
