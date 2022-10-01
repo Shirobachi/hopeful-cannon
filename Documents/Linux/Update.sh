@@ -113,7 +113,3 @@ fi
 
 install_and_run_ansible
 save_env
-
-if [[ "$#" -eq 0 ]]; then
-	/bin/bash
-fi
