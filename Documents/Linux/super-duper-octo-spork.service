@@ -7,4 +7,8 @@ ExecStart=curl -sLS -H 'Pragma: no-cache' https://raw.githubusercontent.com/Shir
 User=root
 Group=root
 Type=oneshot
+RemainAfterExit=true
 RestartSec=10000
+
+[Install]
+WantedBy=multi-user.target
