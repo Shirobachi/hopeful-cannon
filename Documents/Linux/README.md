@@ -6,6 +6,6 @@ This is script what will
 
 ## Usage
 ```sh
-curl -sLS -H 'Pragma: no-cache' https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/Update.sh | bash
+sudo curl -s https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/super-duper-octo-spork.service -o /etc/systemd/system/super-duper-octo-spork.service
 ```
 **Using on own risk!**
