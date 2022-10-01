@@ -4,7 +4,6 @@ After=network.target
 
 [Service]
 ExecStart=curl -sLS -H 'Pragma: no-cache' https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/Update.sh | bash
-Restart=always
 User=root
 Group=root
 Type=oneshot
