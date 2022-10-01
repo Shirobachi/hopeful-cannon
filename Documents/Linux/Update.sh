@@ -47,9 +47,7 @@ function restore_changes(){
 		# Restore file
 		$GIT_COMMAND_PREFIX restore "$file"
 
-		# Add log echo
 		echo "$file" restore to default state
-		echo "$(date +%Y-%m-%d_%H-%M-%S)" "$file" restore to default state >> "$HOME"/.logs
 	done
 }
 
