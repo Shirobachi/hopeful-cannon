@@ -57,16 +57,25 @@ function clone_bare_repo(){
 
 # INFO: Pull changes from remote repository, move conflits files to ~/Downloads/$datetime location
 # $1 - prefix command for git commands
-# function pull_repo(){
-# TODO: check if https and set https if not
-# 	if [[ "$#" -ne 1 ]]; then
-# 		exit 1
-# 	fi
-# 	DOI_BACKUP_DIR=$1
-# 	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
+function pull_repo(){
+	if [[ "$#" -ne 2 ]]; then
+		exit 1
+	fi
+	DOI_BACKUP_DIR=$1
+	DOI_BACKUP_REPO=$2
+	BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
+	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
 
-# 	$GIT_COMMAND_PREFIX pull
-# }
+	# check if git url is https
+	if [[ $($GIT_COMMAND_PREFIX remote get-url origin) != https* ]]; then
+		# convert to ssh
+		echo "Converting git url to https"
+		$GIT_COMMAND_PREFIX remote set-url origin "$BACKUP_GIT_HTTPS_REPO"
+	fi
+
+	# pulling thinkgs
+
+}
 
 function push_repo(){
 	if [[ "$#" -ne 2 ]]; then
@@ -91,7 +100,6 @@ function push_repo(){
 	$GIT_COMMAND_PREFIX commit -am "Backup $datetime"
 	$GIT_COMMAND_PREFIX pull
 	$GIT_COMMAND_PREFIX push origin master --force
-	
 }
 
 # # # # # # # # # # # # # # # MAIN # # # # # # # # # # # # # # # 
@@ -106,10 +114,9 @@ if [[ ! -d $DOI_BACKUP_DIR ]]; then
 else 
 	if [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "SLAVE" ]]; then
 		echo "$DOI_BACKUP_MODE has been detected!"
-		# pull_repo "$DOI_BACKUP_DIR"
+		pull_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
 	elif [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "MASTER" ]]; then
 		echo "$DOI_BACKUP_MODE has been detected!"
-		
 		push_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
 	fi
 fi
