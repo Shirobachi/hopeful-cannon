@@ -26,22 +26,22 @@ function clone_bare_repo(){
 	fi
 	BACKUP_GIT_HTTPS_REPO=$1
 	DOI_BACKUP_DIR=$2
+	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
 
 	echo "Cloning bare repo for the first time..."
 	git clone --bare "$BACKUP_GIT_HTTPS_REPO" "$DOI_BACKUP_DIR"
-	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
-
-	if [[ $($GIT_COMMAND_PREFIX status --porcelain | wc -l) -ne 0 ]]; then
-		datetime=$(date +%Y-%m-%d_%H-%M-%S)
-		backup_dir="$HOME"/Downloads/backup_"$datetime"
-
-		mkdir "$backup_dir"
-		$GIT_COMMAND_PREFIX checkout 2>&1 | grep -e "\s+\." | awk \{'print $1'\} | xargs -I{} mv {} "$HOME/Downloads/backup_$datetime"/{}
-		$GIT_COMMAND_PREFIX reset --hard
-	fi
-
 	$GIT_COMMAND_PREFIX config --local status.showUntrackedFiles no
-	$GIT_COMMAND_PREFIX checkout --force
+
+echo "$RANDOM" >> "$HOME"/LICENSE
+	if [[ ! $($GIT_COMMAND_PREFIX checkout) ]]; then
+		datetime=$(date +%Y-%m-%d_%H-%M-%S)
+		backup_dir="$HOME"/Downloads/backup_"$datetime"/
+		echo "Found uncommited changes in the backup repo. Moving them to $backup_dir"
+
+		mkdir -p "$backup_dir"
+		$GIT_COMMAND_PREFIX checkout 2>&1 | grep -e "^\s" | awk '{print $1}' | xargs -I{} mv {} "$backup_dir"
+		$GIT_COMMAND_PREFIX checkout --force
+	fi
 }
 
 # # # # # # # # # # # # # # # MAIN # # # # # # # # # # # # # # # 
@@ -49,10 +49,10 @@ function clone_bare_repo(){
 load_variables
 DOI_BACKUP_DIR=${DOI_BACKUP_DIR:-"$HOME/.backup"}
 DOI_BACKUP_REPO=${DOI_BACKUP_REPO:-"Shirobachi/super-duper-octo-spork"}
-BARE_REPO_ADDRESS="https://github.com/$DOI_BACKUP_REPO.git"
+BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
 
-if [[ ! -d $DOI_BACKUP_DIR/.git ]]; then
-	clone_bare_repo "$BARE_REPO_ADDRESS" "$DOI_BACKUP_DIR"
+if [[ ! -d $DOI_BACKUP_DIR ]]; then
+	clone_bare_repo "$BACKUP_GIT_HTTPS_REPO" "$DOI_BACKUP_DIR"
 fi
 
 save_variables
