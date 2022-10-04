@@ -22,9 +22,8 @@ fi
 # # # # # # # # # # # # # # # INTERNAL FUNCTIONS # # # # # # # # # # # # # # # 
 
 # INFO: Clone repository "$1" to "$2" location, move conflits files to ~/Downloads/$datetime location
-# $1 - repository to clone
-# $2 - location to clone to
-# $3 - prefix command for git commands
+# $1 - directory of the repository
+# $2 - repo (user/repo)
 function clone_bare_repo(){
 	if [[ "$#" -ne 2 ]]; then
 		exit 1
@@ -56,7 +55,8 @@ function clone_bare_repo(){
 }
 
 # INFO: Pull changes from remote repository, move conflits files to ~/Downloads/$datetime location
-# $1 - prefix command for git commands
+# $1 - directory of the repository
+# $2 - repo (user/repo)
 function pull_repo(){
 	if [[ "$#" -ne 2 ]]; then
 		exit 1
@@ -85,6 +85,9 @@ function pull_repo(){
 	fi 
 }
 
+# INFO: Push changes to remote repository, conflict from remote are ignored
+# $1 - directory of the repository
+# $2 - repo (user/repo)
 function push_repo(){
 	if [[ "$#" -ne 2 ]]; then
 		exit 1
@@ -118,7 +121,7 @@ if [[ -z "$DOI_BACKUP_DIR" ]] || [[ -z "$DOI_BACKUP_REPO" ]] || [[ -z "$DOI_BACK
 fi
 
 if [[ ! -d $DOI_BACKUP_DIR ]]; then
-	clone_bare_repo "$DOI_BACKUP_REPO" "$DOI_BACKUP_DIR"
+	clone_bare_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
 else 
 	if [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "SLAVE" ]]; then
 		echo "$DOI_BACKUP_MODE has been detected!"
