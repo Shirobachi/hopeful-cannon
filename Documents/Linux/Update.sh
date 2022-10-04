@@ -119,17 +119,29 @@ load_variables
 if [[ -z "$DOI_BACKUP_DIR" ]] || [[ -z "$DOI_BACKUP_REPO" ]] || [[ -z "$DOI_BACKUP_MODE" ]]; then
 	exit 1
 fi
+/usr/bin/tty -s && INTERACTIVE=true || INTERACTIVE=false
+SLEEP_TIME=${1:-3600}
 
-if [[ ! -d $DOI_BACKUP_DIR ]]; then
-	clone_bare_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
-else 
-	if [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "SLAVE" ]]; then
-		echo "$DOI_BACKUP_MODE has been detected!"
-		pull_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
-	elif [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "MASTER" ]]; then
-		echo "$DOI_BACKUP_MODE has been detected!"
-		push_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
+while true; do
+	if [[ ! -d $DOI_BACKUP_DIR ]]; then
+		clone_bare_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
+	else 
+		if [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "SLAVE" ]]; then
+			echo "$DOI_BACKUP_MODE has been detected!"
+			pull_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
+		elif [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "MASTER" ]]; then
+			echo "$DOI_BACKUP_MODE has been detected!"
+			push_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
+		fi
 	fi
-fi
+
+	if [[ "$INTERACTIVE" = true ]]; then
+		break;
+	else
+		echo "Sleeping for $SLEEP_TIME seconds ..."
+		sleep "$SLEEP_TIME"
+	fi
+
+done
 
 save_variables
