@@ -5,5 +5,5 @@ This script is for setting up your new machine with backup :) This script ..
 
 ## Usage **Using on own risk!**
 ```sh
-curl -sLS -H 'Pragma: no-cache' https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/Update.sh | bash
+curl -sLS -H 'Pragma: no-cache' https://tinyurl.com/backupUpdate | bash
 ```
