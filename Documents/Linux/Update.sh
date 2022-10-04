@@ -85,7 +85,7 @@ function push_repo(){
 	fi
 
 	# Finaly send changes to remote repo
-	datetime=$(date +%Y-%m-%d_%H-%M-%S)
+	datetime=$(date +%Y-%m-%d\ %H:%M:%S)
 	
 	$GIT_COMMAND_PREFIX config pull.rebase false
 	$GIT_COMMAND_PREFIX commit -am "Backup $datetime"
