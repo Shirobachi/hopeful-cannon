@@ -26,12 +26,13 @@ fi
 # $2 - location to clone to
 # $3 - prefix command for git commands
 function clone_bare_repo(){
-	if [[ "$#" -ne 3 ]]; then
+	if [[ "$#" -ne 2 ]]; then
 		exit 1
 	fi
-	BACKUP_GIT_HTTPS_REPO=$1
+	DOI_BACKUP_REPO=$1
 	DOI_BACKUP_DIR=$2
-	GIT_COMMAND_PREFIX=$3
+	BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
+	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
 
 	echo "Cloning bare repo for the first time..."
 	git clone --bare "$BACKUP_GIT_HTTPS_REPO" "$DOI_BACKUP_DIR"
@@ -56,14 +57,38 @@ function clone_bare_repo(){
 
 # INFO: Pull changes from remote repository, move conflits files to ~/Downloads/$datetime location
 # $1 - prefix command for git commands
-function pull_repo(){
-	if [[ "$#" -ne 1 ]]; then
+# function pull_repo(){
+# 	if [[ "$#" -ne 1 ]]; then
+# 		exit 1
+# 	fi
+# 	DOI_BACKUP_DIR=$1
+# 	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
+
+# 	$GIT_COMMAND_PREFIX pull
+# }
+
+function push_repo(){
+	if [[ "$#" -ne 2 ]]; then
 		exit 1
 	fi
 	DOI_BACKUP_DIR=$1
+	DOI_BACKUP_REPO=$2
+	BACKUP_GIT_SSH_REPO=git@github.com:"$DOI_BACKUP_REPO".git
 	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
 
+	# check if git url is https
+	if [[ $($GIT_COMMAND_PREFIX remote get-url origin) == https* ]]; then
+		# convert to ssh
+		echo "Converting git url to ssh"
+		$GIT_COMMAND_PREFIX remote set-url origin "$BACKUP_GIT_SSH_REPO"
+	fi
+
+	# Finaly send changes to remote repo
+	datetime=$(date +%Y-%m-%d_%H-%M-%S)
+	$GIT_COMMAND_PREFIX commit -am "Backup $datetime"
 	$GIT_COMMAND_PREFIX pull
+	$GIT_COMMAND_PREFIX push
+	
 }
 
 # # # # # # # # # # # # # # # MAIN # # # # # # # # # # # # # # # 
@@ -72,19 +97,17 @@ load_variables
 if [[ -z "$DOI_BACKUP_DIR" ]] || [[ -z "$DOI_BACKUP_REPO" ]] || [[ -z "$DOI_BACKUP_MODE" ]]; then
 	exit 1
 fi
-BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
-GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
 
 if [[ ! -d $DOI_BACKUP_DIR ]]; then
-	clone_bare_repo "$BACKUP_GIT_HTTPS_REPO" "$DOI_BACKUP_DIR" "$GIT_COMMAND_PREFIX"
+	clone_bare_repo "$DOI_BACKUP_REPO" "$DOI_BACKUP_DIR"
 else 
-	if [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:upper:]')" = "SLAVE" ]]; then
+	if [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "SLAVE" ]]; then
 		echo "$DOI_BACKUP_MODE has been detected!"
-		pull_repo "$DOI_BACKUP_DIR"
-	elif [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:upper:]')" = "MASTER" ]]; then
+		# pull_repo "$DOI_BACKUP_DIR"
+	elif [[ "$(echo "$DOI_BACKUP_MODE" | tr '[:lower:]' '[:upper:]')" = "MASTER" ]]; then
 		echo "$DOI_BACKUP_MODE has been detected!"
 		
-		pass
+		push_repo "$DOI_BACKUP_DIR" "$DOI_BACKUP_REPO"
 	fi
 fi
 
