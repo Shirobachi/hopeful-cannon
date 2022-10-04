@@ -1,24 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC1091
 
-# # # # # # # # # # # # # # # CORE # # # # # # # # # # # # # # # 
-
-set -e # Exit on error
-# if any parameter is equal to "debug" or "-d" or "--debug" then set -x
-for i in "$@"; do
-  if [[ $i == "debug" ]] || [[ $i == "-d" ]] || [[ $i == "--debug" ]]; then
-		set -x
-  fi
-done
-
-# load assets
-if [[ ! -f "$HOME/Documents/Linux/assets.sh" ]]; then
-	echo "Loading assets from remote "
-	curl -s "https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/assets.sh" -o /tmp/assets.sh && source /tmp/assets.sh
-else
-	source "$HOME/Documents/Linux/assets.sh" # Load assets
-fi
-
 # # # # # # # # # # # # # # # INTERNAL FUNCTIONS # # # # # # # # # # # # # # # 
 
 # INFO: Clone repository "$1" to "$2" location, move conflits files to ~/Downloads/$datetime location
@@ -113,14 +95,49 @@ function push_repo(){
 	$GIT_COMMAND_PREFIX push origin master --force
 }
 
-# # # # # # # # # # # # # # # MAIN # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # CORE # # # # # # # # # # # # # # # 
+set -e # Exit on error
+# if any parameter is equal to "debug" or "-d" or "--debug" then set -x
+for i in "$@"; do
+  if [[ $i == "debug" ]] || [[ $i == "-d" ]] || [[ $i == "--debug" ]]; then
+		set -x
+  fi
+done
 
+# Set up parameters variables
+/usr/bin/tty -s && INTERACTIVE=true || INTERACTIVE=false
+USERNAME=$1
+SLEEP_TIME=${2:-3600}
+
+# set good $HOME variable
+if [[ "$HOME" = "/root" ]] && [[ ! -d "/home/$USERNAME" ]]; then
+	echo "You must specify a correct username as first argument if you run this script as root"
+	exit 1
+fi
+if [[ "$HOME" = "/root" ]]; then
+	HOME="/home/$USERNAME"
+fi
+
+# load assets
+if [[ ! -f "$HOME/Documents/Linux/assets.sh" ]]; then
+	echo "Loading assets from remote "
+	curl -s "https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/assets.sh" -o /tmp/assets.sh && source /tmp/assets.sh
+else
+	source "$HOME/Documents/Linux/assets.sh" # Load assets
+fi
 load_variables
+
+# exit if required variables are not loaded
 if [[ -z "$DOI_BACKUP_DIR" ]] || [[ -z "$DOI_BACKUP_REPO" ]] || [[ -z "$DOI_BACKUP_MODE" ]]; then
 	exit 1
 fi
-/usr/bin/tty -s && INTERACTIVE=true || INTERACTIVE=false
-SLEEP_TIME=${1:-3600}
+
+# INFO: This script is for private use only, it's not intended to be used by others, but feel free to use it if you want
+#       It's a simple script that backup my home directory to a remote git repository
+#       ~~Also work with ansible-pull command for configuration purpose~~
+# $1 - username (for home directory), only if use as root
+# $2 - sleep time in seconds
+# # # # # # # # # # # # # # # MAIN # # # # # # # # # # # # # # # 
 
 while true; do
 	if [[ ! -d $DOI_BACKUP_DIR ]]; then
