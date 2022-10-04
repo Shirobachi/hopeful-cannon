@@ -37,7 +37,7 @@ function clone_bare_repo(){
 		backup_dir="$HOME"/Downloads/backup_"$datetime"/
 
 		mkdir -p "$backup_dir"
-		$GIT_COMMAND_PREFIX checkout 2>&1 | grep -e "^\s" | awk '{print $1}' | xargs -I{} mv {} "$backup_dir"
+		$GIT_COMMAND_PREFIX checkout 2>&1 | grep -e "^\s" | awk '{print $1}' | xargs -I{} mv "$HOME"/{} "$backup_dir"
 		$GIT_COMMAND_PREFIX checkout --force
 
 		# remove $backup_dir if it's empty
