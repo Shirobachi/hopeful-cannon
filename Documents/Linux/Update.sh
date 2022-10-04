@@ -32,7 +32,6 @@ function clone_bare_repo(){
 	git clone --bare "$BACKUP_GIT_HTTPS_REPO" "$DOI_BACKUP_DIR"
 	$GIT_COMMAND_PREFIX config --local status.showUntrackedFiles no
 
-echo "$RANDOM" >> "$HOME"/LICENSE
 	if [[ ! $($GIT_COMMAND_PREFIX checkout) ]]; then
 		datetime=$(date +%Y-%m-%d_%H-%M-%S)
 		backup_dir="$HOME"/Downloads/backup_"$datetime"/
