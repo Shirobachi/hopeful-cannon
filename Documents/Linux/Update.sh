@@ -58,6 +58,7 @@ function clone_bare_repo(){
 # INFO: Pull changes from remote repository, move conflits files to ~/Downloads/$datetime location
 # $1 - prefix command for git commands
 # function pull_repo(){
+# TODO: check if https and set https if not
 # 	if [[ "$#" -ne 1 ]]; then
 # 		exit 1
 # 	fi
