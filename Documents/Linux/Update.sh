@@ -12,7 +12,7 @@ for i in "$@"; do
 done
 
 # load assets
-if [[ ! -f $(pwd)/assets.sh ]]; then
+if [[ ! -f "$HOME/Documents/Linux/assets.sh" ]]; then
 	curl -s "https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/assets.sh" -o /tmp/assets.sh && source /tmp/assets.sh
 else
 	source ./assets.sh # Load assets
