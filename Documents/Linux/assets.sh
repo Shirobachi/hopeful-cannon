@@ -27,4 +27,7 @@ function load_variables(){
 	if [[ -f $ENV_FILE ]]; then
 		. "$ENV_FILE"
 	fi
+	export DOI_BACKUP_DIR=${DOI_BACKUP_DIR:-"$HOME/.backup"}
+	export DOI_BACKUP_REPO=${DOI_BACKUP_REPO:-"Shirobachi/super-duper-octo-spork"}
+	export DOI_BACKUP_MODE=${DOI_BACKUP_MODE:-"slave"}
 }
