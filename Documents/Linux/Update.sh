@@ -90,7 +90,7 @@ function push_repo(){
 	datetime=$(date +%Y-%m-%d\ %H:%M:%S)
 	
 	$GIT_COMMAND_PREFIX config pull.rebase false
-	$GIT_COMMAND_PREFIX commit -am "Backup $datetime"
+	$GIT_COMMAND_PREFIX commit -am "Backup $datetime" || true
 	$GIT_COMMAND_PREFIX pull
 	$GIT_COMMAND_PREFIX push origin master --force
 }
