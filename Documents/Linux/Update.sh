@@ -88,7 +88,7 @@ function push_repo(){
 	$GIT_COMMAND_PREFIX add .
 	$GIT_COMMAND_PREFIX commit -m "Backup $datetime"
 	$GIT_COMMAND_PREFIX pull
-	$GIT_COMMAND_PREFIX push
+	$GIT_COMMAND_PREFIX push --force
 	
 }
 
