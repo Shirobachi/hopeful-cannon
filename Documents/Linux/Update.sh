@@ -35,11 +35,17 @@ function clone_bare_repo(){
 	if [[ ! $($GIT_COMMAND_PREFIX checkout) ]]; then
 		datetime=$(date +%Y-%m-%d_%H-%M-%S)
 		backup_dir="$HOME"/Downloads/backup_"$datetime"/
-		echo "Found uncommited changes in the backup repo. Moving them to $backup_dir"
 
 		mkdir -p "$backup_dir"
 		$GIT_COMMAND_PREFIX checkout 2>&1 | grep -e "^\s" | awk '{print $1}' | xargs -I{} mv {} "$backup_dir"
 		$GIT_COMMAND_PREFIX checkout --force
+
+		# remove $backup_dir if it's empty
+		if [[ ! $(ls -A "$backup_dir") ]]; then
+			rmdir "$backup_dir"
+		else
+			echo "Found uncommited changes in the backup repo. Moving them to $backup_dir"
+		fi
 	fi
 }
 
