@@ -75,6 +75,14 @@ function pull_repo(){
 
 	# pulling thinkgs
 
+	if [[ $(git --git-dir=/home/simon/.backup --work-tree=/home/simon status --porcelain | wc -l) -ne 0 ]]; then 
+		datetime=$(date +%Y-%m-%d_%H-%M-%S)
+		backup_dir="$HOME"/Downloads/backup_"$datetime"/
+
+		mkdir -p "$backup_dir"
+		$GIT_COMMAND_PREFIX status --porcelain | awk '{print $2}' | xargs -I{} mv "$HOME"/{} "$backup_dir"
+		$GIT_COMMAND_PREFIX checkout --force
+	fi 
 }
 
 function push_repo(){
