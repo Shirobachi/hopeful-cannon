@@ -10,6 +10,8 @@
     - "ranger"
     - "zsh"
     - "bpytop"
+    - "flameshot"
+
     PACKAGES_ARCH: 
     - "cronie"
     - "python-pip"
@@ -25,14 +27,8 @@
           update_cache: yes
         when: ansible_os_family == "Archlinux"
 
-      - name: arch (aur)
-        kewlfft.aur.aur:
-          name: "espanso"
-          state: present
-          update_cache: yes
-        become: yes
-        become_user: aur_builder
-        when: ansible_os_family == "Archlinux"
+    - name: aur
+      aur: name=espanso user=simon
 
     - name: install zsh plugins
       block: 
@@ -44,4 +40,3 @@
       - name: zsh-syntax-highlighting
         git:
           repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-          dest: /home/simon/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting 

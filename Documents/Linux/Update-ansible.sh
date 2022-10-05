@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e # Exit with nonzero exit code if anything fails
 # shellcheck disable=SC1091
 
 # load assets
@@ -20,8 +21,25 @@ else
 	exit 0
 fi
 
-# install ansible plugins
-ansible-galaxy collection install kewlfft.aur
+
+
+# if any parameter is test, --test, t or -t then run ansible in check mode
+for i in "$@"; do
+	if [[ $i == "test" ]] || [[ $i == "-t" ]] || [[ $i == "--test" ]] || [[ $i == "t" ]]; then
+		echo "Running ansible in check mode"
+		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --check
+		exit 0
+	fi
+done
+
+# if any parameter is local, --local, l or -l then run ansible in local mode
+for i in "$@"; do
+	if [[ $i == "local" ]] || [[ $i == "-l" ]] || [[ $i == "--local" ]] || [[ $i == "l" ]]; then
+		echo "Running ansible in local mode"
+		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --connection=local
+		exit 0
+	fi
+done
 
 # Run ansible playbook in pull mode
 ansible-pull -U "$BACKUP_GIT_HTTPS_REPO" Documents/Linux/Update.yml --purge
