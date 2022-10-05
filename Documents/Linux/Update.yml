@@ -24,5 +24,11 @@
         update_cache: yes
       when: ansible_os_family == "Archlinux"
 
-    - name: Set zsh as default shell
-      shell: chsh -s /bin/zsh
+    - name: Set zsh as default shell for simon
+      user:
+        name: simon
+        shell: /bin/zsh
+    - name: Set zsh as default shell for root
+      user:
+        name: root
+        shell: /bin/zsh
