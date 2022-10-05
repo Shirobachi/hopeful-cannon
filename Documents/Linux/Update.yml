@@ -24,3 +24,13 @@
         state: present
         update_cache: yes
       when: ansible_os_family == "Archlinux"
+
+    - name: Install sudo zsh plugin
+      git:
+        repo: "https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/z"
+        dest: "/usr/share/zsh/plugins/z"
+        update: yes
+
+    - name: debug $ZSH_CUSTOM variable
+      debug:
+        msg: "{{ lookup('env', 'ZSH_CUSTOM') }}"
