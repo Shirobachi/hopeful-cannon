@@ -2,6 +2,7 @@
 - name: Config new machine
   hosts: localhost
   become: yes
+  become_user: simon
   gather_facts: yes
 
   vars: 
