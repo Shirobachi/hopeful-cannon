@@ -25,4 +25,4 @@
 
     - name: debug $ZSH_CUSTOM variable
       debug:
-        msg: "{{ lookup('env', 'ZSH_CUSTOM') }}"
+        msg: "{{ lookup('env', 'HOME') }}"
