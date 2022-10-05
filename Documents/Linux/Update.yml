@@ -2,8 +2,6 @@
 - name: Config new machine
   hosts: localhost
   become: yes
-  become_method: sudo
-  become_user: root
   gather_facts: yes
 
   vars: 
