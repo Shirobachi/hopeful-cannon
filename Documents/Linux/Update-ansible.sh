@@ -21,4 +21,4 @@ else
 fi
 
 # Run ansible playbook in pull mode
-ansible-pull -U "$BACKUP_GIT_HTTPS_REPO" Documents/Linux/Update.yml --purgesudo 
+ansible-pull -U "$BACKUP_GIT_HTTPS_REPO" Documents/Linux/Update.yml --purge
