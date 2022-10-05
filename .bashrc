@@ -2,6 +2,8 @@
 # shellcheck disable=SC1091
 # shellcheck disable=SC1090
 
+# # # # # # # # # # Core # # # # # # # # # #
+
 # load assets
 if [[ ! -f "$HOME/Documents/Linux/assets.sh" ]]; then
 	echo "Loading assets from remote "
@@ -33,5 +35,17 @@ alias manjaro='docker run -tiv /home/simon/Documents/Linux:/home/jenkins/BACKUP 
 alias xclipp='xclip -selection clipboard'
 alias backup='git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME'
 alias update='$HOME/Documents/Linux/Update.sh'
+
+# # # # # # # # # # Functions # # # # # # # # # #
+
+function c() {
+	# curl with all parameters
+	curl -s "cheat.sh/$*"
+}
+
+function CODE(){
+	# open vscode and terminate terminal
+	code "$@" && exit
+}
 
 append "$0"

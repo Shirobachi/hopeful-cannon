@@ -11,10 +11,14 @@ fi
 
 while true; do
 	sudo -H -u simon bash -c "$(dirname "$0")/Update-backup.sh"
+
+	if [[ $EUID -ne 0 ]]; then
+		exit 0
+	fi
 	"$(dirname "$0")/Update-ansible.sh"
 
 	if [[ "$INTERACTIVE" = true ]]; then
-		break;
+		exit 0
 	else
 		echo "Sleeping for $SLEEP_TIME seconds ..."
 		sleep "$SLEEP_TIME"
