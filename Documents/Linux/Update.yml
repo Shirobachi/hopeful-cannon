@@ -10,6 +10,7 @@
     PACKAGES: 
     - "vim"
     - "ranger"
+    - "zsh"
     PACKAGES_ARCH: 
     - "cronie"
     - "python-pip"
@@ -22,3 +23,6 @@
         state: present
         update_cache: yes
       when: ansible_os_family == "Archlinux"
+
+    - name: Set zsh as default shell
+      shell: chsh -s /bin/zsh
