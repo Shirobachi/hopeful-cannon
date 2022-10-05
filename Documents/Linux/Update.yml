@@ -30,6 +30,7 @@
           name: "espanso"
           state: present
           update_cache: yes
+        become: yes
         when: ansible_os_family == "Archlinux"
 
     - name: install zsh plugins
