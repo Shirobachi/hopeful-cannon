@@ -13,7 +13,7 @@ while true; do
 	sudo -H -u simon bash -c "$(dirname "$0")/Update-backup.sh"
 
 	if [[ $EUID -ne 0 ]]; then
-		echo "This script must be run as root, providing password"
+		echo "This script must be run as root, provide password"
 		sudo "$(dirname "$0")/Update-ansible.sh"
 		exit 0
 	fi

@@ -13,15 +13,23 @@
     PACKAGES_ARCH: 
     - "cronie"
     - "python-pip"
-    - "espanso"
+    - "yay"
 
   tasks:
-    - name: install packages (arch)
-      package:
-        name: "{{ PACKAGES + PACKAGES_ARCH }}"
-        state: present
-        update_cache: yes
-      when: ansible_os_family == "Archlinux"
+    - name: install packages
+      block: 
+      - name: arch (default)
+        package:
+          name: "{{ PACKAGES + PACKAGES_ARCH }}"
+          state: present
+          update_cache: yes
+        when: ansible_os_family == "Archlinux"
+      - name: arch (yay)
+        yay:
+          name: "espanso"
+          state: present
+          update_cache: yes
+        when: ansible_os_family == "Archlinux"
 
     - name: install zsh plugins
       block: 
