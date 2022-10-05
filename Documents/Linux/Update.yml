@@ -9,9 +9,11 @@
     - "vim"
     - "ranger"
     - "zsh"
+    - "bpytop"
     PACKAGES_ARCH: 
     - "cronie"
     - "python-pip"
+    - "espanso"
 
   tasks:
     - name: install packages (arch)
