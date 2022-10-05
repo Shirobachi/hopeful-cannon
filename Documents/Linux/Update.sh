@@ -1,13 +1,13 @@
 #!/bin/bash
 
+/usr/bin/tty -s && INTERACTIVE=true || INTERACTIVE=false
+SLEEP_TIME=${1:-3600}
+
 # exit if not root
-if [[ $EUID -ne 0 ]]; then
+if [[ $EUID -ne 0 ]] && [[ "$INTERACTIVE" = "false" ]]; then
 	echo "This script must be run as root" 1>&2
 	exit 1
 fi
-
-/usr/bin/tty -s && INTERACTIVE=true || INTERACTIVE=false
-SLEEP_TIME=${1:-3600}
 
 while true; do
 	sudo -H -u simon bash -c "$(dirname "$0")/Update-backup.sh"
