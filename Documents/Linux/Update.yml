@@ -15,6 +15,7 @@
     - "cronie"
     - "python-pip"
     - "zsh-autosuggestions" # zsh plugin
+    - "zsh-syntax-highlighting" # zsh plugin
 
   tasks:
     - name: install packages (arch)
@@ -23,12 +24,3 @@
         state: present
         update_cache: yes
       when: ansible_os_family == "Archlinux"
-
-    - name: Set zsh as default shell for simon
-      user:
-        name: simon
-        shell: /bin/zsh
-    - name: Set zsh as default shell for root
-      user:
-        name: root
-        shell: /bin/zsh
