@@ -21,25 +21,24 @@ else
 	exit 0
 fi
 
-
-
-# if any parameter is test, --test, t or -t then run ansible in check mode
-for i in "$@"; do
-	if [[ $i == "test" ]] || [[ $i == "-t" ]] || [[ $i == "--test" ]] || [[ $i == "t" ]]; then
-		echo "Running ansible in check mode"
-		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --check
-		exit 0
-	fi
-done
+# if $1 parameter is test, --test, t or -t then run ansible in check mode
+if [[ $1 == "test" ]] || [[ $1 == "-t" ]] || [[ $1 == "--test" ]] || [[ $1 == "t" ]]; then
+	echo "Running ansible in check mode"
+	ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --check
+	exit 0
+fi
 
 # if any parameter is local, --local, l or -l then run ansible in local mode
-for i in "$@"; do
-	if [[ $i == "local" ]] || [[ $i == "-l" ]] || [[ $i == "--local" ]] || [[ $i == "l" ]]; then
-		echo "Running ansible in local mode"
+if [[ $1 == "local" ]] || [[ $1 == "-l" ]] || [[ $1 == "--local" ]] || [[ $1 == "l" ]]; then
+	echo "Running ansible in local mode"
+	if [[ "$#" -eq 1 ]]; then
 		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --connection=local
-		exit 0
+	else
+		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --connection=local  --tags "$2"
 	fi
-done
+
+	exit 0
+fi
 
 # Run ansible playbook in pull mode
 ansible-pull -U "$BACKUP_GIT_HTTPS_REPO" Documents/Linux/Update.yml --purge

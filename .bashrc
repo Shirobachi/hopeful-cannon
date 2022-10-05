@@ -24,9 +24,10 @@ HISTFILESIZE=9999
 
 # variables
 export PS1="[\[\e[33m\]\u\[\e[m\]@\[\e[34m\]\h\[\e[m\]] \[\e[35m\]\w\[\e[m\] ⇨ "
-export VISUAL=code;
-export EDITOR=code;
+export VISUAL=micro;
+export EDITOR=micro;
 export LANG=en_US.UTF-8
+export PATH="$PATH:$HOME/Documents/Linux/Apps/"
 
 # # # # # # # # # # Aliases # # # # # # # # # #
 
