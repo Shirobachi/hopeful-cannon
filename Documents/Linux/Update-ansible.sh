@@ -21,7 +21,7 @@ else
 fi
 
 # install ansible plugins
-ansible-galaxy install jonsible.yay
+ansible-galaxy collection install kewlfft.aur
 
 # Run ansible playbook in pull mode
 ansible-pull -U "$BACKUP_GIT_HTTPS_REPO" Documents/Linux/Update.yml --purge
