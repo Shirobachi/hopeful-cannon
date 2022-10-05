@@ -13,8 +13,6 @@
     PACKAGES_ARCH: 
     - "cronie"
     - "python-pip"
-    - "zsh-autosuggestions" # zsh plugin
-    - "zsh-syntax-highlighting" # zsh plugin
 
   tasks:
     - name: install packages (arch)
@@ -24,6 +22,9 @@
         update_cache: yes
       when: ansible_os_family == "Archlinux"
 
-    - name: debug $ZSH_CUSTOM variable
-      debug:
-        msg: "{{ lookup('env', 'HOME') }}"
+    - name: install zsh plugins
+      block: 
+      - name: zsh-autosuggestions
+        git:
+          repo: https://github.com/zsh-users/zsh-autosuggestions
+          dest: /home/simon/.oh-my-zsh/custom/plugins/zsh-autosuggestions
