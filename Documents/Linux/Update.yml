@@ -31,6 +31,7 @@
           state: present
           update_cache: yes
         become: yes
+        become_user: aur_builder
         when: ansible_os_family == "Archlinux"
 
     - name: install zsh plugins
