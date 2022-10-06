@@ -1,6 +1,7 @@
 #!/bin/bash
 # shellcheck disable=SC1091
 # shellcheck disable=SC1090
+# shellcheck disable=SC2139
 
 # # # # # # # # # # Core # # # # # # # # # #
 
@@ -36,9 +37,9 @@ alias r='ranger'
 alias manjaro='docker run -tiv /home/simon/Documents/Linux:/home/jenkins/BACKUP -v /home/simon/Documents/Linux/assets.sh:/home/jenkins/Documents/Linux/assets.sh hadogenes/manjaro-jenkins /bin/bash'
 alias xclipp='xclip -selection clipboard'
 alias backup='git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME'
-alias update='$HOME/Documents/Linux/Update.sh'
-alias update-backup='$HOME/Documents/Linux/Update-backup.sh'
-alias update-ansible='$HOME/Documents/Linux/Update-ansible.sh'
+alias update="$HOME/Documents/Linux/Update.sh"
+alias update-backup="$HOME/Documents/Linux/Update-backup.sh"
+alias update-ansible="$HOME/Documents/Linux/Update-ansible.sh"
 
 # # # # # # # # # # Functions # # # # # # # # # #
 
