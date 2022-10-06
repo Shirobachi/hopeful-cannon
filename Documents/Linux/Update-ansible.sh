@@ -14,7 +14,7 @@ BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
 
 echo "Installing and running ansible..."
 . /etc/os-release
-if [[ "$ID" == "manjaro" ]]; then
+if [[ "$ID_LIKE" == "arch" ]]; then
 	sudo pacman -Syu --noconfirm --needed ansible
 else
 	echo "Unsupported OS"
@@ -33,8 +33,12 @@ if [[ $1 == "local" ]] || [[ $1 == "-l" ]] || [[ $1 == "--local" ]] || [[ $1 == 
 	echo "Running ansible in local mode"
 	if [[ "$#" -eq 1 ]]; then
 		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --connection=local
-	else
+	elif [[ "$#" -eq 2 ]]; then
 		ansible-playbook -i localhost "$HOME/Documents/Linux/Update.yml" --connection=local  --tags "$2"
+	else
+		echo "Too many parameters"
+		echo "Usage: $0 [[-]local|l] [tag]"
+		exit 1
 	fi
 
 	exit 0
