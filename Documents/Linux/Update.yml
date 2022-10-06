@@ -33,6 +33,8 @@
           - "yay"
           - "micro"
           - "libinput-gestures"
+          - "rofimoji"
+          - "knotes"
           state: present
           update_cache: yes
         when: ansible_os_family == "Archlinux"

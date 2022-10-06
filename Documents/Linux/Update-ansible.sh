@@ -1,6 +1,6 @@
 #!/bin/bash
-set -e # Exit with nonzero exit code if anything fails
 # shellcheck disable=SC1091
+set -e # Exit with nonzero exit code if anything fails
 
 # load assets
 if [[ ! -f "$HOME/Documents/Linux/assets.sh" ]]; then
