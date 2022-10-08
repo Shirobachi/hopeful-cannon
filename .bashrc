@@ -6,11 +6,11 @@
 # # # # # # # # # # Core # # # # # # # # # #
 
 # load assets
-if [[ ! -f "$HOME/Documents/Linux/assets.sh" ]]; then
+if [[ ! -f "$HOME/Documents/Linux/Backup/assets.sh" ]]; then
 	echo "Loading assets from remote "
-	curl -s "https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/assets.sh" -o /tmp/assets.sh && source /tmp/assets.sh
+	curl -s "https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/Backup/assets.sh" -o /tmp/assets.sh && source /tmp/assets.sh
 else
-	source "$HOME/Documents/Linux/assets.sh" # Load assets
+	source "$HOME/Documents/Linux/Backup/assets.sh" # Load assets
 fi
 load_variables
 prepend "$0"
@@ -28,18 +28,18 @@ export PS1="[\[\e[33m\]\u\[\e[m\]@\[\e[34m\]\h\[\e[m\]] \[\e[35m\]\w\[\e[m\] ⇨
 export VISUAL=micro;
 export EDITOR=micro;
 export LANG=en_US.UTF-8
-export PATH="$PATH:$HOME/Documents/Linux/Apps/"
+export PATH="$PATH:$HOME/Documents/Linux/Backup/Apps/"
 
 # # # # # # # # # # Aliases # # # # # # # # # #
 
 alias ll='ls -lAh'
 alias r='ranger'
-alias manjaro='docker run -tiv /home/simon/Documents/Linux:/home/jenkins/BACKUP -v /home/simon/Documents/Linux/assets.sh:/home/jenkins/Documents/Linux/assets.sh hadogenes/manjaro-jenkins /bin/bash'
+alias manjaro='docker run -tiv /home/simon/Documents/Linux/Backup:/home/jenkins/BACKUP -v /home/simon/Documents/Linux/Backup/assets.sh:/home/jenkins/Documents/Linux/Backup/assets.sh hadogenes/manjaro-jenkins /bin/bash'
 alias xclipp='xclip -selection clipboard'
 alias backup='git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME'
-alias update="$HOME/Documents/Linux/Update.sh"
-alias update-backup="$HOME/Documents/Linux/Update-backup.sh"
-alias update-ansible="$HOME/Documents/Linux/Update-ansible.sh"
+alias update="$HOME/Documents/Linux/Backup/Update.sh"
+alias update-backup="$HOME/Documents/Linux/Backup/Update-backup.sh"
+alias update-ansible="$HOME/Documents/Linux/Backup/Update-ansible.sh"
 alias t="task"
 
 # # # # # # # # # # Functions # # # # # # # # # #

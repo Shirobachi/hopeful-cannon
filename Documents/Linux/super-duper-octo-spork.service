@@ -1,8 +1,0 @@
-[Unit]
-After=network.target
-
-[Service]
-ExecStart=sudo /Documents/Linux/Update.sh
-
-[Install]
-WantedBy=multi-user.target

@@ -64,7 +64,7 @@
       block: 
       - name: make directory for images
         file:
-          path: /home/simon/Documents/Linux/Apps/
+          path: /home/simon/Documents/Linux/Backup/Apps/
           state: directory
           mode: 0755
           owner: simon
@@ -75,13 +75,13 @@
         - name: Download app
           get_url:
             url: https://github.com/federico-terzi/espanso/releases/download/v2.1.7-beta/Espanso-X11.AppImage
-            dest: /home/simon/Documents/Linux/Apps/espanso.AppImage
+            dest: /home/simon/Documents/Linux/Backup/Apps/espanso.AppImage
             mode: 0755
             owner: simon
             group: simon
 
         - name: start service
-          shell: /home/simon/Documents/Linux/Apps/espanso.AppImage service register &&  /home/simon/Documents/Linux/Apps/espanso.AppImage start || true
+          shell: /home/simon/Documents/Linux/Backup/Apps/espanso.AppImage service register &&  /home/simon/Documents/Linux/Backup/Apps/espanso.AppImage start || true
           become_user: simon
 
     - name: libinput-gestures - Add yourself (simon) to group input
