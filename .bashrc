@@ -34,7 +34,8 @@ export PATH="$PATH:$HOME/Documents/Linux/Backup/Apps/"
 
 alias ll='ls -lAh'
 alias r='ranger'
-alias manjaro='docker run -tiv /home/simon/Documents/Linux/Backup:/home/jenkins/BACKUP -v /home/simon/Documents/Linux/Backup/assets.sh:/home/jenkins/Documents/Linux/Backup/assets.sh hadogenes/manjaro-jenkins /bin/bash'
+alias manjaro='docker run -tiv /home/simon/Downloads:/home/jenkins/Documents/Linux/Backup/assets.sh hadogenes/manjaro-jenkins /bin/bash'
+alias ubuntu='docker run -tiv /home/simon/Downloads:/home/jenkins/Documents/Linux/Backup/assets.sh ubuntu /bin/bash'
 alias xclipp='xclip -selection clipboard'
 alias backup='git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME'
 alias update="$HOME/Documents/Linux/Backup/Update.sh"

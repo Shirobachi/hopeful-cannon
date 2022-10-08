@@ -100,3 +100,21 @@
       become: yes
       become_user: root
       tags: last
+
+    - name: add to cron removing unused docker images
+      cron:
+        name: "remove unused docker images"
+        minute: "0"
+        hour: "0"
+        job: "docker image prune -a -f"
+        user: simon
+      tags: cron
+
+    - name: add to cron removing unused docker volumes
+      cron:
+        name: "remove unused docker volumes"
+        minute: "0"
+        hour: "0"
+        job: "docker volume prune -f"
+        user: simon
+      tags: cron

@@ -72,9 +72,22 @@ function updateScreen(){
 	xrandr | grep -vi primary | grep "disconnected" | awk '{print $1}' | xargs -I{} xrandr --output {} --off && "$HOME"/Documents/Linux/Backup/screen-layout.sh
 }
 
+function runDockers(){
+	cd "$HOME/Documents/Linux/Docker" || exit 1
+
+	for file in *.yml; do
+		docker-compose -f "$file" up -d
+	done
+}
+
 # # # # # # # # # # Runners # # # # # # # # # #
 
 if [[ "$#" -eq 1 ]] && [[ "$1" == "updateScreen" ]]; then
 	updateScreen
+	exit 0
+fi
+
+if [[ "$#" -eq 1 ]] && [[ "$1" == "runDockers" ]]; then
+	runDockers
 	exit 0
 fi
