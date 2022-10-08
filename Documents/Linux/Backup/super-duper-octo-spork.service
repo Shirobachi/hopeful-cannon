@@ -1,0 +1,8 @@
+[Unit]
+After=network.target
+
+[Service]
+ExecStart=sudo /Documents/Linux/Backup/Update.sh
+
+[Install]
+WantedBy=multi-user.target
