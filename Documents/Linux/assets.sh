@@ -65,3 +65,16 @@ function append(){
 		source "$(dirname "$1")/$(basename "$1").append"
 	fi
 }
+
+# INFO: Function update screens via xrander
+function updateScreen(){
+	# Use arandr to generate this script file
+	xrandr | grep -vi primary | grep "disconnected" | awk '{print $1}' | xargs -I{} xrandr --output {} --off && "$HOME"/Documents/Linux/screen-layout.sh
+}
+
+# # # # # # # # # # Runners # # # # # # # # # #
+
+if [[ "$#" -eq 1 ]] && [[ "$1" == "updateScreen" ]]; then
+	updateScreen
+	exit 0
+fi
