@@ -121,11 +121,3 @@
       shell: "yay -S --noconfirm --needed --cleanafter -y i3-resurrect"
       become: yes
       become_user: root
-
-    - name: i3-resurrect - add to cron
-      cron:
-        name: "i3-resurrect"
-        minute: "*/5"
-        hour: "0"
-        job: "$HOME/Documents/Linux/Backup/assets.sh saveLayout"
-        user: simon

@@ -7,7 +7,7 @@
 
 # load assets
 if [[ ! -f "$HOME/Documents/Linux/Backup/assets.sh" ]]; then
-	echo "Loading assets from remote "
+	echo "Loading assets from remote"
 	curl -s "https://raw.githubusercontent.com/Shirobachi/super-duper-octo-spork/master/Documents/Linux/Backup/assets.sh" -o /tmp/assets.sh && source /tmp/assets.sh
 else
 	source "$HOME/Documents/Linux/Backup/assets.sh" # Load assets

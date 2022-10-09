@@ -69,7 +69,21 @@ function append(){
 # INFO: Function update screens via xrander
 function updateScreen(){
 	# Use arandr to generate this script file
-	xrandr | grep -vi primary | grep "disconnected" | awk '{print $1}' | xargs -I{} xrandr --output {} --off && "$HOME"/Documents/Linux/Backup/screen-layout.sh
+	xrandr | grep -vi primary | grep "disconnected" | awk '{print $1}' | xargs -I{} xrandr --output {} --off
+
+	if [[ -f "$HOME"/Documents/Linux/Backup/screen-layout.sh ]]; then
+		"$HOME"/Documents/Linux/Backup/screen-layout.sh
+
+		# Assign workspaces to screens
+		screens=$(xrandr | grep " connected" | grep -iv primary | awk '{print $1}')
+		if [[ $(echo "$screens" | wc -l ) -eq 1 ]] || [[ $(echo "$screens" | wc -l ) -eq 2 ]]; then
+			i3-msg "workspace L; move workspace to output $(echo "$screens" | head -1);"
+			if [[ $(echo "$screens" | wc -l ) -eq 2 ]]; then
+				sleep 2
+				i3-msg "workspace R; move workspace to output $(echo "$screens" | tail -1)"
+			fi
+		fi
+	fi
 }
 
 function runDockers(){
@@ -82,6 +96,7 @@ function runDockers(){
 
 function saveLayout(){
 	workspaces=$(i3-msg -t get_workspaces | jq -r '.[].name')
+	echo "$workspaces"
 	rm -rf /tmp/i3-resurrect
 
 	for workspace in $workspaces; do
@@ -90,15 +105,36 @@ function saveLayout(){
 }
 
 function restoreLayout(){
-	for workspace in /tmp/i3-resurrect/*layout.json; do
-		i3-resurrect restore -w "$(basename "$workspace" | awk -F_ '{print $2}')" -d /tmp/i3-resurrect/
-	done
+	# check if /tmp/i3-resurrect exists and not empty
+	if [[ -d /tmp/i3-resurrect && "$(ls -A /tmp/i3-resurrect)" ]]; then
+		for workspace in /tmp/i3-resurrect/*layout.json; do
+			i3-resurrect restore -w "$(basename "$workspace" | awk -F_ '{print $2}')" -d /tmp/i3-resurrect/
+		done
+	fi
+}
+
+function powermenu(){
+	# shellcheck disable=SC2034
+	OPTIONS="Logout\nReboot\nPoweroff"
+	CHOICE=$(echo -e "$OPTIONS" | dmenu -i -p "Power Menu")
+
+	saveLayout
+	killall google-chrome-stable
+	killall google-chrome
+
+	if [[ "$CHOICE" = "Logout" ]]; then
+		i3-msg exit
+	else
+		systemctl "$($CHOICE | awk '{print tolower($0)}')"
+	fi
 }
 
 # # # # # # # # # # Runners # # # # # # # # # #
 
 # iNFO: Run function if passed as $1
-functions=$(declare -F | awk '{print $NF}' | sort | grep -ve "^_" )
-if [[ "$#" -eq 1 ]] && echo "$1" | grep -qv "-" && echo "$functions" | grep -q "$1"; then
-	$1
+if [[ "$#" -eq 1 ]] && echo "$1" | grep -qv "-"; then
+	functions=$(grep -e "^function " "$0" | awk '{print $2}' | sed 's/()//g')
+	if echo "$functions" | grep -q "$1"; then
+		"$1"
+	fi
 fi
