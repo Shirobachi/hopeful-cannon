@@ -42,6 +42,7 @@ alias update="$HOME/Documents/Linux/Backup/Update.sh"
 alias update-backup="$HOME/Documents/Linux/Backup/Update-backup.sh"
 alias update-ansible="$HOME/Documents/Linux/Backup/Update-ansible.sh"
 alias t="task"
+alias code="code --add"
 
 # # # # # # # # # # Functions # # # # # # # # # #
 

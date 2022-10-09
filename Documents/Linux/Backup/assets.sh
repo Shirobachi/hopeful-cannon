@@ -116,16 +116,17 @@ function restoreLayout(){
 function powermenu(){
 	# shellcheck disable=SC2034
 	OPTIONS="Logout\nReboot\nPoweroff"
-	CHOICE=$(echo -e "$OPTIONS" | dmenu -i -p "Power Menu")
+	CHOICE=$(echo -e "$OPTIONS" | dmenu -i -p "Power Menu" | awk '{print tolower($0)}')
 
 	saveLayout
-	killall google-chrome-stable
-	killall google-chrome
+	killall chrome || true
+	notify-send "Power Menu" "Saving layout and killing chrome, $CHOICE in 5 seconds"
+	sleep 5
 
-	if [[ "$CHOICE" = "Logout" ]]; then
+	if [[ "$CHOICE" = "logout" ]]; then
 		i3-msg exit
 	else
-		systemctl "$($CHOICE | awk '{print tolower($0)}')"
+		systemctl "$CHOICE"
 	fi
 }
 
