@@ -80,14 +80,25 @@ function runDockers(){
 	done
 }
 
+function saveLayout(){
+	workspaces=$(i3-msg -t get_workspaces | jq -r '.[].name')
+	rm -rf /tmp/i3-resurrect
+
+	for workspace in $workspaces; do
+		i3-resurrect save -w "$workspace" -d /tmp/i3-resurrect/
+	done
+}
+
+function restoreLayout(){
+	for workspace in /tmp/i3-resurrect/*layout.json; do
+		i3-resurrect restore -w "$(basename "$workspace" | awk -F_ '{print $2}')" -d /tmp/i3-resurrect/
+	done
+}
+
 # # # # # # # # # # Runners # # # # # # # # # #
 
-if [[ "$#" -eq 1 ]] && [[ "$1" == "updateScreen" ]]; then
-	updateScreen
-	exit 0
-fi
-
-if [[ "$#" -eq 1 ]] && [[ "$1" == "runDockers" ]]; then
-	runDockers
-	exit 0
+# iNFO: Run function if passed as $1
+functions=$(declare -F | awk '{print $NF}' | sort | grep -ve "^_" )
+if [[ "$#" -eq 1 ]] && echo "$1" | grep -qv "-" && echo "$functions" | grep -q "$1"; then
+	$1
 fi

@@ -35,6 +35,7 @@
           - "libinput-gestures"
           - "rofimoji"
           - "knotes"
+          - "kdeconnect"
           state: present
           update_cache: yes
         when: ansible_os_family == "Archlinux"
@@ -99,7 +100,6 @@
       shell: "yay -S --noconfirm --needed --cleanafter -y gromit-mpx"
       become: yes
       become_user: root
-      tags: last
 
     - name: add to cron removing unused docker images
       cron:
@@ -108,7 +108,6 @@
         hour: "0"
         job: "docker image prune -a -f"
         user: simon
-      tags: cron
 
     - name: add to cron removing unused docker volumes
       cron:
@@ -117,4 +116,16 @@
         hour: "0"
         job: "docker volume prune -f"
         user: simon
-      tags: cron
+
+    - name: i3-resurrect - install via "yay"
+      shell: "yay -S --noconfirm --needed --cleanafter -y i3-resurrect"
+      become: yes
+      become_user: root
+
+    - name: i3-resurrect - add to cron
+      cron:
+        name: "i3-resurrect"
+        minute: "*/5"
+        hour: "0"
+        job: "$HOME/Documents/Linux/Backup/assets.sh saveLayout"
+        user: simon
