@@ -1,0 +1,10 @@
+{
+    "autosu": true,
+    "backup": false,
+    "colorcolumn": 80,
+    "colorscheme": "darcula",
+    "diffgutter": true,
+    "savecursor": true,
+    "saveundo": true,
+    "scrollbar": true
+}
