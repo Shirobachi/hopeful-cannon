@@ -29,7 +29,7 @@ data.location=/home/simon/.config/.task
 #include dark-16.theme
 #include dark-256.theme
 #include dark-red-256.theme
-#include dark-green-256.theme
+include dark-green-256.theme
 #include dark-blue-256.theme
 #include dark-violets-256.theme
 #include dark-yellow-green.theme
@@ -41,4 +41,3 @@ data.location=/home/simon/.config/.task
 
 news.version=2.6.0
 regex=on
-confirmation=off

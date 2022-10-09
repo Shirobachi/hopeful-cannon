@@ -41,8 +41,11 @@ alias backup='git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME'
 alias update="$HOME/Documents/Linux/Backup/Update.sh"
 alias update-backup="$HOME/Documents/Linux/Backup/Update-backup.sh"
 alias update-ansible="$HOME/Documents/Linux/Backup/Update-ansible.sh"
-alias t="task"
 alias code="code --add"
+alias t="task"
+alias ts="t start && t"
+alias td="t done && t"
+alias ta="t add && t"
 
 # # # # # # # # # # Functions # # # # # # # # # #
 
