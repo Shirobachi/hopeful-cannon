@@ -1,0 +1,45 @@
+general {
+	output_format = "i3bar"
+	colors = true
+	interval = 1
+	color_good = "#aaff00"
+	color_degraded = "#00dddd"
+	color_bad = "#ff2200"
+}
+
+order += "disk /"
+order += "cpu_usage"
+order += "load"
+order += "tztime localdate"
+order += "tztime localtime"
+order += "volume master"
+
+disk "/" {
+	format = "  %avail "
+	prefix_type = custom
+}
+
+cpu_usage {
+	format = "  %usage "
+}
+
+load {
+	format = "  %1min "
+	max_threshold = 5
+}
+
+tztime localdate {
+	format = "  %Y-%m-%d "
+}
+
+tztime localtime {
+	format = "  %H:%M:%S "
+}
+
+volume master {
+	format = "  %volume "
+	format_muted = "  %volume "
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
