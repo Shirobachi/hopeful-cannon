@@ -2,6 +2,7 @@
 # shellcheck disable=SC1090
 
 DEFAULT_DOI_VARIABLE_FILE="$HOME/Documents/Linux/Backup/.env"
+WOSKPACE_LAYOUT_PATH="$HOME/.cache/workspace-layout/"
 
 # INFO: Save all variables with prefix "$2" to file "$1"
 # $1 - file to save variables to
@@ -86,47 +87,47 @@ function updateScreen(){
 	fi
 }
 
-function runDockers(){
-	cd "$HOME/Documents/Linux/Docker" || exit 1
-
-	for file in *.yml; do
-		docker-compose -f "$file" up -d
-	done
-}
-
+# INFO: Save workspace layout
 function saveLayout(){
+	rm -rf "$WOSKPACE_LAYOUT_PATH"
 	workspaces=$(i3-msg -t get_workspaces | jq -r '.[].name')
-	echo "$workspaces"
-	rm -rf /tmp/i3-resurrect
 
 	for workspace in $workspaces; do
-		i3-resurrect save -w "$workspace" -d /tmp/i3-resurrect/
+		i3-resurrect save -w "$workspace" -d "$WOSKPACE_LAYOUT_PATH"
 	done
 }
 
+# INFO: Restore workspace layout
 function restoreLayout(){
-	# check if /tmp/i3-resurrect exists and not empty
-	if [[ -d /tmp/i3-resurrect && "$(ls -A /tmp/i3-resurrect)" ]]; then
-		for workspace in /tmp/i3-resurrect/*layout.json; do
-			i3-resurrect restore -w "$(basename "$workspace" | awk -F_ '{print $2}')" -d /tmp/i3-resurrect/
+	# check if $WOSKPACE_LAYOUT_PATH exists and not empty
+	echo "1"
+	if [[ -d "$WOSKPACE_LAYOUT_PATH" && "$(ls -A "$WOSKPACE_LAYOUT_PATH")" ]]; then
+	echo "11"
+		for workspace in "$WOSKPACE_LAYOUT_PATH"*layout.json; do
+	echo "111"
+			i3-resurrect restore -w "$(basename "$workspace" | awk -F_ '{print $2}')" -d "$WOSKPACE_LAYOUT_PATH"
 		done
+	echo "111"
 	fi
+	echo "1111"
 }
 
+# INFO: Show menu for manage system
 function powermenu(){
 	# shellcheck disable=SC2034
-	OPTIONS="Logout\nReboot\nPoweroff"
+	OPTIONS="Logout\nSuspend\nReboot\nPoweroff"
 	CHOICE=$(echo -e "$OPTIONS" | dmenu -i -p "Power Menu" | awk '{print tolower($0)}')
 
-	saveLayout
-	killall chrome || true
-	notify-send "Power Menu" "Saving layout and killing chrome, $CHOICE in 5 seconds"
-	sleep 5
+	if [[ -n "$CHOICE" ]]; then
+		saveLayout
+		notify-send "System" "System will be $CHOICE in 5 seconds ..." 
+		sleep 5
 
-	if [[ "$CHOICE" = "logout" ]]; then
-		i3-msg exit
-	else
-		systemctl "$CHOICE"
+		if [[ "$CHOICE" = "logout" ]]; then
+			i3-msg exit
+		else
+			systemctl "$CHOICE"
+		fi
 	fi
 }
 

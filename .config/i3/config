@@ -64,9 +64,9 @@ exec numlockx on # switch on numlock
 exec copyq
 exec libinput-gestures-setup start
 exec $HOME/Documents/Linux/Backup/assets.sh "updateScreen"
-exec $HOME/Documents/Linux/Backup/assets.sh "runDockers"
 exec kdeconnect-indicator
 exec $HOME/Documents/Linux/Backup/assets.sh "restoreLayout"
+exec gromit-mpx
 
 # # # # # # # # # # Workspaces & Mods # # # # # # # # # # 
 # use Mouse+$mod to drag floating windows to their wanted position
@@ -153,6 +153,7 @@ for_window [class="ATLauncher"] floating enable
 for_window [class="Video-downloader"] floating enable
 for_window [class="knotes"] floating enable
 for_window [class="microsoft teams - preview"] floating enable
+for_window [class="Nm-connection-editor"] floating enable
 
 # Assign app to workspace
 assign [class="code"] 2

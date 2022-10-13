@@ -15,9 +15,30 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: arn:aws:eks:eu-central-1:752243001721:cluster/shirobachi-test-eks
-  currentCluster: arn:aws:eks:eu-central-1:752243001721:cluster/shirobachi-test-eks
+  currentContext: arn:aws:eks:eu-central-1:752243001721:cluster/simon-eks
+  currentCluster: arn:aws:eks:eu-central-1:752243001721:cluster/simon-eks
   clusters:
+    arn:aws:eks:eu-central-1:752243001721:cluster/mom-e2e-testing-instance-eks:
+      namespace:
+        active: all
+        lockFavorites: false
+        favorites:
+        - kube-system
+        - all
+        - default
+      view:
+        active: ctx
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+      portForwardAddress: localhost
     arn:aws:eks:eu-central-1:752243001721:cluster/shirobachi-test-eks:
       namespace:
         active: all
@@ -31,6 +52,25 @@ k9s:
         nodeShell: false
       shellPod:
         image: busybox:1.31
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+      portForwardAddress: localhost
+    arn:aws:eks:eu-central-1:752243001721:cluster/simon-eks:
+      namespace:
+        active: all
+        lockFavorites: false
+        favorites:
+        - default
+      view:
+        active: node
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
         command: []
         args: []
         namespace: default
