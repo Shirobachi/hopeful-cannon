@@ -10,8 +10,8 @@ function clone_bare_repo(){
 	if [[ "$#" -ne 2 ]]; then
 		exit 1
 	fi
-	DOI_BACKUP_REPO=$1
-	DOI_BACKUP_DIR=$2
+	DOI_BACKUP_DIR=$1
+	DOI_BACKUP_REPO=$2
 	BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
 	GIT_COMMAND_PREFIX="git --git-dir=$DOI_BACKUP_DIR --work-tree=$HOME"
 
@@ -99,7 +99,7 @@ function push_repo(){
 set -e # Exit on error
 # if any parameter is equal to "debug" or "-d" or "--debug" then set -x
 for i in "$@"; do
-  if [[ $i == "debug" ]] || [[ $i == "-d" ]] || [[ $i == "--debug" ]]; then
+  if [[ $i == "-d" ]] || [[ $i == "--debug" ]]; then
 		set -x
   fi
 done
