@@ -35,7 +35,7 @@ bindsym Print exec flameshot screen -c
 # Emoji picker
 bindsym $mod+period exec rofimoji
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal -e "zsh" || i3-sensible-terminal
+bindsym $mod+Return exec i3-sensible-terminal
 
 # Keep numlock on
 bindsym --release Num_Lock exec numlockx on
@@ -50,9 +50,6 @@ bindsym $mod+F3 exec xdg-open ~
 
 # Stick windows to all workspaces
 bindsym $mod+Shift+Ctrl+space sticky toggle
-
-# Refresh screen layout
-bindsym $mod+Ctrl+Shift+r exec $HOME/Documents/Linux/Backup/assets.sh "updateScreen"
 
 # Powermenu and lockscreen
 bindsym $mod+Shift+Ctrl+s exec $HOME/Documents/Linux/Backup/assets.sh "powermenu"
@@ -212,7 +209,7 @@ bindsym $mod+Shift+0 move container to workspace $ws0; workspace $ws0
 bindsym $mod+t layout toggle tabbed split
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r exec bash -c "i3-msg 'restart' && $HOME/Documents/Linux/Backup/assets.sh 'updateScreen'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -227,6 +224,11 @@ mode "resize" {
 	bindsym Shift+Up resize shrink height 100 px or 100 ppt
 	bindsym Shift+Right resize grow width 100 px or 100 ppt
 
+	bindsym Ctrl+Left resize shrink width 100 px or 100 ppt
+	bindsym Ctrl+Down resize grow height 100 px or 100 ppt
+	bindsym Ctrl+Up resize shrink height 100 px or 100 ppt
+	bindsym Ctrl+Right resize grow width 100 px or 100 ppt
+
 	# back to normal: Enter or Escape or $mod+r
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
@@ -238,4 +240,5 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 bar {
 	status_command i3status
+	tray_output primary
 }

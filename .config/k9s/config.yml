@@ -64,9 +64,10 @@ k9s:
         active: all
         lockFavorites: false
         favorites:
+        - mom
         - default
       view:
-        active: node
+        active: deploy
       featureGates:
         nodeShell: false
       shellPod:

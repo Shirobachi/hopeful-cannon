@@ -100,21 +100,19 @@ function saveLayout(){
 # INFO: Restore workspace layout
 function restoreLayout(){
 	# check if $WOSKPACE_LAYOUT_PATH exists and not empty
-	echo "1"
 	if [[ -d "$WOSKPACE_LAYOUT_PATH" && "$(ls -A "$WOSKPACE_LAYOUT_PATH")" ]]; then
-	echo "11"
 		for workspace in "$WOSKPACE_LAYOUT_PATH"*layout.json; do
-	echo "111"
 			i3-resurrect restore -w "$(basename "$workspace" | awk -F_ '{print $2}')" -d "$WOSKPACE_LAYOUT_PATH"
 		done
-	echo "111"
 	fi
-	echo "1111"
 }
 
 # INFO: Show menu for manage system
 function powermenu(){
 	# shellcheck disable=SC2034
+	LOCK_COMMAND=$(grep "mod+l" "$HOME/.config/i3/config" | awk -F"exec" '{print $2}')
+	[[ -z "$LOCK_COMMAND" ]] && LOCK_COMMAND="i3lock -c 216485"
+
 	OPTIONS="Logout\nSuspend\nReboot\nPoweroff"
 	CHOICE=$(echo -e "$OPTIONS" | dmenu -i -p "Power Menu" | awk '{print tolower($0)}')
 
@@ -123,6 +121,7 @@ function powermenu(){
 		notify-send "System" "System will be $CHOICE in 5 seconds ..." 
 		sleep 5
 
+		[[ $CHOICE = "suspend" ]] && eval $LOCK_COMMAND
 		if [[ "$CHOICE" = "logout" ]]; then
 			i3-msg exit
 		else
@@ -131,12 +130,19 @@ function powermenu(){
 	fi
 }
 
-# # # # # # # # # # Runners # # # # # # # # # #
+function test () {
+	allScreens=$(xrandr | grep " connected" | awk '{print $1}')
+}
+
+# # # # # # # # # # Runner # # # # # # # # # #
 
 # iNFO: Run function if passed as $1
 if [[ "$#" -eq 1 ]] && echo "$1" | grep -qv "-"; then
 	functions=$(grep -e "^function " "$0" | awk '{print $2}' | sed 's/()//g')
 	if echo "$functions" | grep -q "$1"; then
 		"$1"
+	else
+		echo "Function $1 not found"
+		exit 1
 	fi
 fi

@@ -111,3 +111,14 @@
       shell: "yay -S --noconfirm --needed --cleanafter -y i3-resurrect"
       become: yes
       become_user: root
+
+    - name: Generate SSH key with hostname as name
+      community.crypto.openssh_keypair:
+        path: /home/simon/.ssh/id_rsa
+        type: rsa
+        size: 4096
+        comment: "simon@{{ ansible_hostname }}"
+        owner: simon
+        group: simon
+        mode: 0600
+      tags: last

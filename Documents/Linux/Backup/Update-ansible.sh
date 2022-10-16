@@ -13,12 +13,14 @@ load_variables
 BACKUP_GIT_HTTPS_REPO="https://github.com/$DOI_BACKUP_REPO.git"
 
 echo "Installing and running ansible..."
-. /etc/os-release
-if [[ "$ID_LIKE" == "arch" ]]; then
-	sudo pacman -Syu --noconfirm --needed ansible
-else
-	echo "Unsupported OS"
-	exit 0
+if [[ ! $(which ansible) ]]; then
+	. /etc/os-release
+	if [[ "$ID_LIKE" == "arch" ]]; then
+		sudo pacman -Syu --noconfirm --needed ansible
+	else
+		echo "Unsupported OS"
+		exit 0
+	fi
 fi
 
 # if $1 parameter is --test or -t then run ansible in check mode
